@@ -1,0 +1,20 @@
+node_modules/
+dist/
+
+# Secrets / entorno local
+.env
+.env.*
+!.env.example
+
+# Notas internas para Claude Code, no forman parte del proyecto público
+CLAUDE.md
+
+# Logs y temporales
+*.log
+npm-debug.log*
+
+# Editor / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

@@ -1,0 +1,289 @@
+<html lang='es'>
+  <head>
+    <meta charset='UTF-8' />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      {{#if fontBase64}}
+      @font-face {
+        font-family: 'Selawik';
+        src: url('data:font/truetype;base64,{{{fontBase64}}}') format('truetype');
+        font-weight: normal;
+      }
+      @font-face {
+        font-family: 'Selawik';
+        src: url('data:font/truetype;base64,{{{fontBoldBase64}}}') format('truetype');
+        font-weight: bold;
+      }
+      {{/if}}
+
+      body {
+        width:{{widthPx}}px;
+          height:{{heightPx}}px;
+          font-family: {{#if fontBase64}}'Selawik', {{/if}}'Segoe UI', {{{fallbackFontFamily}}};
+        }
+
+        .etiqueta {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          background-image: url('data:image/png;base64,{{{fondoBase64}}}');
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+          overflow: hidden;
+        }
+
+        .campo-producto {
+          position: absolute;
+          top: calc(31% + 34px);
+          height: 14.2%;
+          left: 50%;
+          width: 62%;
+          transform: translateX(-50%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          color: #1a1a1a;
+          font-size: 58px;
+          line-height: 1.05;
+          font-weight: 700;
+          text-transform: uppercase;
+          white-space: normal;
+          overflow: hidden;
+        }
+        #medidor-producto {
+          position: absolute;
+          visibility: hidden;
+          left: -9999px;
+          top: 0;
+          text-align: center;
+          text-transform: uppercase;
+          font-weight: 700;
+          line-height: 1.05;
+        }
+
+        /*
+          GRID DE 2 COLUMNAS FIJO: columna 1 va de "4%+74px" (el offset
+          de 74px ya lo traía el diseño original de LOTE) hasta 50%,
+          columna 2 va de 51% a 96% (right:4%), con 1% de margen entre
+          ambas. Layout SIEMPRE igual sin importar el contenido — ya no
+          depende de JS para calcular su posición, así LOTE/FABRICANTE,
+          PESO NETO/PESO BRUTO y FECHA FAB/FECHA VENC quedan
+          perfectamente alineados entre sí siempre. Si el texto no
+          entra en su columna, en vez de truncarlo o desalinear el
+          layout, se reduce su font-size automáticamente (ver
+          ajustarFuenteCampo() en el script).
+        */
+        .campo-lote {
+          position: absolute;
+          top: 53%;
+          left: calc(4% + 74px);
+          right: 50%;
+          font-size: 50px;
+          font-weight: 700;
+          color: #111;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        .campo-fabricante {
+          position: absolute;
+          top: 53%;
+          left: 51%;
+          right: 4%;
+          font-size: 50px;
+          font-weight: 700;
+          color: #111;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        .campo-peso-neto {
+          position: absolute;
+          top: 63%;
+          left: calc(4% + 74px);
+          right: 50%;
+          font-size: 50px;
+          font-weight: 700;
+          color: #111;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        .campo-peso-bruto {
+          position: absolute;
+          top: 63%;
+          left: 51%;
+          right: 4%;
+          font-size: 50px;
+          font-weight: 700;
+          color: #111;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        .campo-fecha-fab {
+          position: absolute;
+          top: 74%;
+          left: calc(4% + 74px);
+          right: 50%;
+          font-size: 50px;
+          font-weight: 700;
+          color: #111;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        .campo-fecha-venc {
+          position: absolute;
+          top: 74%;
+          left: 51%;
+          right: 4%;
+          font-size: 50px;
+          font-weight: 700;
+          color: #111;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        .campo-proforma {
+          position: absolute;
+          top: 91%;
+          left: 75%;
+          transform: translateX(-50%);
+          text-align: center;
+          font-size: 40px;
+          font-weight: 700;
+          color: #1a1a1a;
+        }
+
+        .campo span.label {
+          font-weight: 800;
+        }
+      .nfpa-num {
+          position: absolute;
+          text-align: center;
+          font-weight: 700;
+          font-size: 48px;
+          font-family: 'Myriad Pro', {{#if fontBase64}}'Selawik', {{/if}}'Segoe UI', {{{fallbackFontFamily}}};
+          transform: translate(-50%, -50%);
+        }
+        .nfpa-salud {
+          top: 17.57%;
+          left: 83.12%;
+          color: #fff;
+        }
+        .nfpa-inflamabilidad {
+          top: 11.76%;
+          left: 86.57%;
+          color: #fff;
+        }
+        .nfpa-reactividad {
+          top: 17.56%;
+          left: 89.99%;
+          color: #1a1a1a;
+        }
+    </style>
+  </head>
+  <body>
+    <div class='etiqueta'>
+      <div class='campo-producto' id='campo-producto'><span
+          id='nombre-producto'
+        >{{producto}}</span></div>
+      <div id='medidor-producto'></div>
+
+      <div class='campo-lote'><span class='label'>LOTE:</span>
+        <span class='valor' id='valor-lote'>{{numeroLote}}</span></div>
+      <div class='campo-fabricante'><span class='label'>FABRICANTE:</span>
+        <span class='valor' id='valor-fabricante'>{{fabricante}}</span></div>
+
+      <div class='campo-peso-neto'><span class='label'>{{labelNeto}}:</span>
+        {{pesoNeto}}
+        {{unidadNeto}}</div>
+      <div class='campo-peso-bruto'><span class='label'>PESO BRUTO:</span>
+        {{pesoBruto}}
+        {{unidadBruto}}</div>
+
+      <div class='campo-fecha-fab'><span class='label'>FECHA FAB:</span>
+        {{fechaFabricacion}}</div>
+      <div class='campo-fecha-venc'><span class='label'>FECHA VENC:</span>
+        {{fechaVencimiento}}</div>
+
+      <div class='campo-proforma'>{{proforma}}</div>
+      <div class='nfpa-num nfpa-salud'>{{nfpaSalud}}</div>
+      <div class='nfpa-num nfpa-inflamabilidad'>{{nfpaInflamabilidad}}</div>
+      <div class='nfpa-num nfpa-reactividad'>{{nfpaReactividad}}</div>
+    </div>
+    <script>
+      // Auto-ajuste del tamaño de fuente del nombre del producto
+      window.ajustarNombreProducto = function () {
+        var box = document.getElementById('campo-producto');
+        var texto = document.getElementById('nombre-producto').textContent;
+        var medidor = document.getElementById('medidor-producto');
+        if (!box || !medidor) return;
+        var FUENTE_MAX = 58, FUENTE_MIN = 26, PASO = 2;
+        var boxWidth = box.clientWidth, boxHeight = box.clientHeight;
+        medidor.style.width = boxWidth + 'px';
+        medidor.textContent = texto;
+        var fontSize = FUENTE_MAX;
+        medidor.style.fontSize = fontSize + 'px';
+        while (medidor.scrollHeight > boxHeight && fontSize > FUENTE_MIN) {
+          fontSize -= PASO;
+          medidor.style.fontSize = fontSize + 'px';
+        }
+        box.style.fontSize = fontSize + 'px';
+      };
+
+      // Centrado del nombre respecto a la franja diagonal del fondo
+      window.centrarNombreProducto = function () {
+        var box = document.getElementById('campo-producto');
+        if (!box) return;
+        var totalH = document.body.clientHeight;
+        var rect = box.getBoundingClientRect();
+        var alturaCuadroPct = ((rect.top + rect.height / 2) / totalH) * 100;
+        var bordeIzquierdoPct = -1.9291 * alturaCuadroPct + 109.746;
+        var bordeDerechoPct = 99.94;
+        var centroPct = (bordeIzquierdoPct + bordeDerechoPct) / 2;
+        box.style.left = 'calc(' + centroPct + '% + -10px)';
+      };
+
+      /*
+        Auto-ajuste de fuente SIN truncar: cada fila (LOTE, FABRICANTE,
+        PESO NETO, PESO BRUTO, FECHA FAB, FECHA VENC) vive en una
+        columna de ancho FIJO por CSS (ver .campo-lote, .campo-fabricante,
+        etc). Si el texto no entra en ese ancho a la fuente máxima, se
+        reduce el font-size del propio elemento paso a paso hasta que
+        quepa entero en una sola línea (scrollWidth <= clientWidth).
+        Nunca se corta texto y el layout de 2 columnas nunca se mueve,
+        sin importar qué tan largo sea un LOTE o un FABRICANTE.
+      */
+      function ajustarFuenteCampo(el, fuenteMax, fuenteMin, paso) {
+        if (!el) return;
+        var fontSize = fuenteMax;
+        el.style.fontSize = fontSize + 'px';
+        while (el.scrollWidth > el.clientWidth && fontSize > fuenteMin) {
+          fontSize -= paso;
+          el.style.fontSize = fontSize + 'px';
+        }
+      }
+      function ajustarFilasDatos() {
+        var FUENTE_MAX = 50, FUENTE_MIN = 22, PASO = 2;
+        [
+          '.campo-lote',
+          '.campo-fabricante',
+          '.campo-peso-neto',
+          '.campo-peso-bruto',
+          '.campo-fecha-fab',
+          '.campo-fecha-venc'
+        ].forEach(function (selector) {
+          ajustarFuenteCampo(document.querySelector(selector), FUENTE_MAX, FUENTE_MIN, PASO);
+        });
+      }
+
+      window.ajustarNombreProducto();
+      window.centrarNombreProducto();
+      ajustarFilasDatos();
+    </script>
+  </body>
+</html>
