@@ -25,7 +25,6 @@ export interface TrabajoPendiente {
   nfpaInflamabilidad: number | null;
   nfpaReactividad: number | null;
   qrUrl: string | null;
-  pictogramasGhs?: string[];
   coaValidado: boolean;
 }
 

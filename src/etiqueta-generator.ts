@@ -5,7 +5,6 @@ import puppeteer, { Browser } from 'puppeteer';
 import * as QRCode from 'qrcode';
 
 import { CONFIG } from './config';
-import { pictogramasHtml } from './ghs';
 
 const ETIQUETA_LABEL_CONFIG = { widthMm: 108, dpi: 360 };
 const ALTO_MM_DEFAULT = 85;
@@ -64,7 +63,6 @@ export interface EtiquetaParaRenderizar {
   nfpaInflamabilidad?: number | null;
   nfpaReactividad?: number | null;
   qrUrl?: string | null;
-  pictogramasGhs?: string[] | null;
   coaValidado?: boolean | null;
 }
 
@@ -140,13 +138,6 @@ export async function construirHtml(archivo: string, etiqueta: EtiquetaParaRende
     nfpaInflamabilidad: etiqueta.nfpaInflamabilidad ?? 0,
     nfpaReactividad: etiqueta.nfpaReactividad ?? 0,
     qrDataUrl,
-    // 10x8.5: franja de ~1050 px; con los 9 posibles se achican para que entren en una fila.
-    pictogramasHtml: pictogramasHtml(etiqueta.pictogramasGhs, (etiqueta.pictogramasGhs?.length ?? 0) >= 9 ? 100 : 112),
-    // 10x6: hueco de ~190x160 px junto al QR; entran 6 como máximo y el tamaño baja según cuántos sean.
-    pictogramasHtmlCompacto: pictogramasHtml(
-      etiqueta.pictogramasGhs?.slice(0, 6),
-      Math.min(etiqueta.pictogramasGhs?.length ?? 0, 6) <= 2 ? 88 : Math.min(etiqueta.pictogramasGhs?.length ?? 0, 6) <= 4 ? 76 : 56,
-    ),
     coaValidado: !!etiqueta.coaValidado,
     logoBase64: getLogoBase64(),
     unidadNetoLabel: UNIDAD_TXT[etiqueta.unidadNeta] ?? etiqueta.unidadNeta,
