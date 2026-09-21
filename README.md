@@ -40,6 +40,7 @@ npm run start   # ejecuta la versión compilada (dist/index.js)
 
 1. **Consulta** el backend (`GET /etiquetas/trabajos/pendientes`) por trabajos pendientes.
 2. **Renderiza** cada trabajo eligiendo una plantilla Handlebars (`assets/templates/*.hbs`) según el tipo de etiqueta, y la convierte en una imagen PNG usando Puppeteer.
+   La etiqueta impresa no incluye pictogramas GHS ni número de envase: eso se ve al escanear el QR.
 3. **Imprime** la imagen invocando `scripts/imprimir-etiqueta.ps1`, que usa GDI+ para enviarla a la impresora con el tamaño de papel y resolución correctos.
 4. **Reporta** el resultado al backend (`PATCH /etiquetas/trabajos/:id/estado`) como `IMPRESO` o `ERROR`.
 
