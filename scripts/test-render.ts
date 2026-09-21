@@ -31,6 +31,7 @@ const base: EtiquetaParaRenderizar = {
 
 const casos = [
   { archivo: 'estandar.hbs', salida: 'estandar.png' },
+  { archivo: 'estandar-clasico.hbs', salida: 'estandar-clasico.png' },
   { archivo: 'con-rombo.hbs', salida: 'con-rombo.png' },
   { archivo: 'blanco.hbs', salida: 'blanco.png' },
   { archivo: 'muestras.hbs', salida: 'muestras.png' },
