@@ -26,6 +26,7 @@ async function procesarPendientes() {
         nfpaInflamabilidad: trabajo.nfpaInflamabilidad,
         nfpaReactividad: trabajo.nfpaReactividad,
         qrUrl: trabajo.qrUrl,
+        pictogramasGhs: trabajo.pictogramasGhs,
         coaValidado: trabajo.coaValidado,
       });
       await imprimir(imagen, formatoDe(trabajo.plantillaArchivo).paperSize);
