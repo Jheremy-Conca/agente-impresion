@@ -16,6 +16,7 @@ const FORMATOS: Record<string, { heightMm: number; paperSize: string }> = {
   'blanco.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'estandar-sinqr.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'con-rombo-sinqr.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
+  'estandar-clasico-60.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'estandar.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'con-rombo.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'estandar-85.hbs': { heightMm: 85, paperSize: CONFIG.paperSize },
@@ -41,6 +42,7 @@ const TEMPLATES_DIR = path.join(ASSETS_DIR, 'templates');
 const FONDOS: Record<string, string> = {
   'con-rombo.hbs': path.join(ASSETS_DIR, 'etiqueta-fondo-rombo-85mm.png'),
   'blanco.hbs': path.join(ASSETS_DIR, 'etiqueta-fondo-blanco.png'), // original de 60mm
+  'estandar-clasico-60.hbs': path.join(ASSETS_DIR, 'etiqueta-fondo-clasico-60.png'), // estandar original 10x6
   'muestras.hbs': path.join(ASSETS_DIR, 'etiqueta-fondo-muestras-85mm.png'),
 };
 const FONDO_DEFAULT = path.join(ASSETS_DIR, 'etiqueta-fondo-85mm.png');
