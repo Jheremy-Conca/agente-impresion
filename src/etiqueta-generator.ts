@@ -11,7 +11,7 @@ const ETIQUETA_LABEL_CONFIG = { widthMm: 108, dpi: 360 };
 const ALTO_MM_DEFAULT = 85;
 
 // blanco.hbs es la única plantilla que conserva el formato original de 10x6 cm
-// (60 mm de alto, sin QR/tara/envase); el resto usa 85 mm. Cada formato lleva
+// (60 mm de alto, sin QR/tara); el resto usa 85 mm. Cada formato lleva
 // su propio papel del driver, porque el papel decide el tamaño físico real.
 const FORMATOS: Record<string, { heightMm: number; paperSize: string }> = {
   'blanco.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
@@ -59,8 +59,6 @@ export interface EtiquetaParaRenderizar {
   cantidadNeta?: string | null;
   unidadNeta: string;
   tara?: string | null;
-  envaseNumero?: number | null;
-  envaseTotal?: number | null;
   proforma: string;
   nfpaSalud?: number | null;
   nfpaInflamabilidad?: number | null;
@@ -137,10 +135,6 @@ export async function construirHtml(archivo: string, etiqueta: EtiquetaParaRende
     unidadNeto: etiqueta.unidadNeta,
     labelNeto,
     tara: etiqueta.tara ?? '—',
-    envase:
-      etiqueta.envaseNumero && etiqueta.envaseTotal
-        ? `${etiqueta.envaseNumero} de ${etiqueta.envaseTotal}`
-        : '',
     proforma: etiqueta.proforma,
     nfpaSalud: etiqueta.nfpaSalud ?? 0,
     nfpaInflamabilidad: etiqueta.nfpaInflamabilidad ?? 0,

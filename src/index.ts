@@ -19,8 +19,6 @@ async function procesarPendientes() {
         cantidadNeta: trabajo.cantidadNeta,
         unidadNeta: trabajo.unidadNeta,
         tara: trabajo.tara,
-        envaseNumero: trabajo.envaseNumero,
-        envaseTotal: trabajo.envaseTotal,
         proforma: trabajo.proforma,
         nfpaSalud: trabajo.nfpaSalud,
         nfpaInflamabilidad: trabajo.nfpaInflamabilidad,

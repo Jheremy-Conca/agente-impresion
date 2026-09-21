@@ -215,10 +215,6 @@
         {{tara}}
         {{unidadBruto}}</div>
 
-      {{#if envase}}
-        <div class='campo-envase'><span class='label'>ENVASE:</span> {{envase}}</div>
-      {{/if}}
-
       {{#if qrDataUrl}}
         <div class='campo-qr'><img src='{{{qrDataUrl}}}' /></div>
       {{/if}}
@@ -258,8 +254,7 @@
         '.campo-peso-bruto',
         '.campo-fecha-fab',
         '.campo-fecha-venc',
-        '.campo-tara',
-        '.campo-envase'
+        '.campo-tara'
       ].forEach(function (selector) {
         ajustarFuenteCampo(document.querySelector(selector), FUENTE_MAX, FUENTE_MIN, PASO);
       });

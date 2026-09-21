@@ -19,8 +19,6 @@ const base: EtiquetaParaRenderizar = {
   cantidadNeta: '1.000',
   unidadNeta: 'KG',
   tara: '0.140',
-  envaseNumero: 1,
-  envaseTotal: 2,
   proforma: 'PF01-4521',
   nfpaSalud: 3,
   nfpaInflamabilidad: 0,

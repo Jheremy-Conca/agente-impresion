@@ -20,8 +20,6 @@ export interface TrabajoPendiente {
   cantidadNeta: string | null;
   unidadNeta: string;
   tara: string | null;
-  envaseNumero: number | null;
-  envaseTotal: number | null;
   proforma: string;
   nfpaSalud: number | null;
   nfpaInflamabilidad: number | null;
