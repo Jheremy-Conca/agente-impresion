@@ -13,6 +13,9 @@ CLAUDE.md
 *.log
 npm-debug.log*
 
+# Renders de prueba de scripts/test-render.ts
+scripts/out/
+
 # Editor / OS
 .vscode/
 .idea/

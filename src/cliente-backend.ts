@@ -19,10 +19,15 @@ export interface TrabajoPendiente {
   unidadBruto: string;
   cantidadNeta: string | null;
   unidadNeta: string;
+  tara: string | null;
+  envaseNumero: number | null;
+  envaseTotal: number | null;
   proforma: string;
   nfpaSalud: number | null;
   nfpaInflamabilidad: number | null;
   nfpaReactividad: number | null;
+  qrUrl: string | null;
+  coaValidado: boolean;
 }
 
 export async function obtenerPendientes(): Promise<TrabajoPendiente[]> {

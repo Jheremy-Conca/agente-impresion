@@ -40,11 +40,11 @@
 
         .campo-producto {
           position: absolute;
-          overflow: hidden; 
-          top: 12%;
+          overflow: hidden;
+          top: 8.46%;
           left: 12%;
           right: 53%;
-          height: 6.9%;
+          height: 4.87%;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -68,9 +68,21 @@
           desalinear el layout, se reduce su font-size automáticamente
           (ver ajustarFuenteCampo() en el script).
         */
+        .campo-qr {
+          position: absolute;
+          top: 36%;
+          left: 28%;
+          width: 18%;
+          height: 22.9%;
+        }
+        .campo-qr img {
+          width: 100%;
+          height: 100%;
+        }
+
         .campo-lote {
           position: absolute;
-          top: 22%;
+          top: 15.51%;
           left: 5%;
           right: 75.5%;
           font-size: 24px;
@@ -82,7 +94,7 @@
 
         .campo-fabricante {
           position: absolute;
-          top: 22%;
+          top: 15.51%;
           left: 25.5%;
           right: 5%;
           font-size: 24px;
@@ -94,7 +106,7 @@
 
         .campo-peso-neto {
           position: absolute;
-          top: 27.5%;
+          top: 19.39%;
           left: 5%;
           right: 75.5%;
           font-size: 24px;
@@ -106,7 +118,7 @@
 
         .campo-peso-bruto {
           position: absolute;
-          top: 27.5%;
+          top: 19.39%;
           left: 25.5%;
           right: 5%;
           font-size: 24px;
@@ -116,9 +128,33 @@
           overflow: hidden;
         }
 
+        .campo-tara {
+          position: absolute;
+          top: 60%;
+          left: 5%;
+          right: 75.5%;
+          font-size: 24px;
+          font-weight: 700;
+          color: #111;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+.campo-envase {
+          position: absolute;
+          top: 66%;
+          left: 5%;
+          right: 75.5%;
+          font-size: 24px;
+          font-weight: 700;
+          color: #111;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
         .campo-fecha-fab {
           position: absolute;
-          top: 32.5%;
+          top: 22.91%;
           left: 5%;
           right: 75.5%;
           font-size: 24px;
@@ -130,7 +166,7 @@
 
         .campo-fecha-venc {
           position: absolute;
-          top: 32.5%;
+          top: 22.91%;
           left: 25.5%;
           right: 5%;
           font-size: 24px;
@@ -142,7 +178,7 @@
 
         .campo-proforma {
           position: absolute;
-          top: 41%;
+          top: 28.9%;
           left: 31%;
           font-size: 24px;
           font-weight: 700;
@@ -174,6 +210,18 @@
         {{fechaFabricacion}}</div>
       <div class='campo-fecha-venc'><span class='label'>FECHA VENC:</span>
         {{fechaVencimiento}}</div>
+
+      <div class='campo-tara'><span class='label'>TARA:</span>
+        {{tara}}
+        {{unidadBruto}}</div>
+
+      {{#if envase}}
+        <div class='campo-envase'><span class='label'>ENVASE:</span> {{envase}}</div>
+      {{/if}}
+
+      {{#if qrDataUrl}}
+        <div class='campo-qr'><img src='{{{qrDataUrl}}}' /></div>
+      {{/if}}
 
       {{#if proforma}}
         <div class='campo-proforma'>{{proforma}}</div>
@@ -209,7 +257,9 @@
         '.campo-peso-neto',
         '.campo-peso-bruto',
         '.campo-fecha-fab',
-        '.campo-fecha-venc'
+        '.campo-fecha-venc',
+        '.campo-tara',
+        '.campo-envase'
       ].forEach(function (selector) {
         ajustarFuenteCampo(document.querySelector(selector), FUENTE_MAX, FUENTE_MIN, PASO);
       });

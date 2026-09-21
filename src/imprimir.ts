@@ -8,14 +8,14 @@ import { CONFIG } from './config';
 const execFileAsync = promisify(execFile);
 const SCRIPT_IMPRESION = path.join(__dirname, '..', 'scripts', 'imprimir-etiqueta.ps1');
 
-export async function imprimir(pngBuffer: Buffer): Promise<void> {
+export async function imprimir(pngBuffer: Buffer, paperSize: string): Promise<void> {
   const rutaTemp = path.join(os.tmpdir(), `etiqueta-${Date.now()}.png`);
   await fs.writeFile(rutaTemp, pngBuffer);
 
   try {
     const { stdout } = await execFileAsync('powershell.exe', [
       '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', SCRIPT_IMPRESION,
-      '-ImagePath', rutaTemp, '-PrinterName', CONFIG.printerName, '-PaperSizeName', CONFIG.paperSize,
+      '-ImagePath', rutaTemp, '-PrinterName', CONFIG.printerName, '-PaperSizeName', paperSize,
     ]);
 
     console.log('[imprimir] salida del script PowerShell:\n' + stdout);

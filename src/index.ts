@@ -1,6 +1,6 @@
 import { CONFIG } from './config';
 import { obtenerPendientes, reportarEstado } from './cliente-backend';
-import { generarImagen } from './etiqueta-generator';
+import { generarImagen, formatoDe } from './etiqueta-generator';
 import { imprimir } from './imprimir';
 
 async function procesarPendientes() {
@@ -18,12 +18,17 @@ async function procesarPendientes() {
         unidadBruto: trabajo.unidadBruto,
         cantidadNeta: trabajo.cantidadNeta,
         unidadNeta: trabajo.unidadNeta,
+        tara: trabajo.tara,
+        envaseNumero: trabajo.envaseNumero,
+        envaseTotal: trabajo.envaseTotal,
         proforma: trabajo.proforma,
         nfpaSalud: trabajo.nfpaSalud,
         nfpaInflamabilidad: trabajo.nfpaInflamabilidad,
         nfpaReactividad: trabajo.nfpaReactividad,
+        qrUrl: trabajo.qrUrl,
+        coaValidado: trabajo.coaValidado,
       });
-      await imprimir(imagen);
+      await imprimir(imagen, formatoDe(trabajo.plantillaArchivo).paperSize);
       await reportarEstado(trabajo.id, 'IMPRESO');
       console.log(`[agente] trabajo ${trabajo.id} impreso OK`);
     } catch (error: any) {
