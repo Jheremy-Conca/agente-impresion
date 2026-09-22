@@ -44,6 +44,12 @@ npm run start   # ejecuta la versión compilada (dist/index.js)
 3. **Imprime** la imagen invocando `scripts/imprimir-etiqueta.ps1`, que usa GDI+ para enviarla a la impresora con el tamaño de papel y resolución correctos.
 4. **Reporta** el resultado al backend (`PATCH /etiquetas/trabajos/:id/estado`) como `IMPRESO` o `ERROR`.
 
+Además, en paralelo:
+
+- **Cada ~15s** avisa al backend (`POST /etiquetas/agente/estado`) que está vivo y el estado de la impresora (`scripts/estado-impresora.ps1`, vía `System.Printing`/WMI): sin papel, sin tinta, tapa abierta, atasco, etc. Si hay algo bloqueante, los trabajos pendientes se dejan en espera (no se marcan `ERROR`) hasta que se resuelva.
+  ⚠️ Windows solo distingue "sin tinta"/"poca tinta" en general, **no informa de qué color** — para eso hay que mirar el monitor de estado de Epson en la PC de la impresora.
+- **Vistas previas** (`GET /etiquetas/vista-previa/pendientes`): dibuja la etiqueta igual que para imprimir, pero la devuelve como imagen (`POST /etiquetas/vista-previa/:id/imagen`) en vez de mandarla a la impresora. No pasa por `scripts/imprimir-etiqueta.ps1`.
+
 ## Agregar una nueva plantilla de etiqueta
 
 Agrega un archivo `.hbs` en `assets/templates/` y, si necesita un fondo distinto al predeterminado, súmalo al mapa `FONDOS` en `src/etiqueta-generator.ts`.
