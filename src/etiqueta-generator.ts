@@ -77,8 +77,12 @@ function getLogoBase64(): string {
 let browser: Browser | null = null;
 const fondosCache = new Map<string, string>();
 
+// Si Chrome se cae o se desconecta (falta de memoria, lo mata Windows, etc.),
+// `browser` queda con una referencia "viva" pero muerta — sin este chequeo,
+// cada intento de imprimir siguiente falla con "Connection closed" hasta
+// reiniciar el agente a mano. `connected` detecta eso y relanza solo.
 async function getBrowser(): Promise<Browser> {
-  if (!browser) {
+  if (!browser || !browser.connected) {
     browser = await puppeteer.launch({ headless: true });
   }
   return browser;

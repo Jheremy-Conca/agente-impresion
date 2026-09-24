@@ -21,3 +21,6 @@ scripts/out/
 .idea/
 Thumbs.db
 .DS_Store
+
+# Salida del lanzador de inicio automatico (scripts/ejecutar-agente.ps1)
+logs/

@@ -36,6 +36,22 @@ npm run build   # compila TypeScript a dist/
 npm run start   # ejecuta la versión compilada (dist/index.js)
 ```
 
+### Verificación al arrancar
+
+Antes de imprimir nada, el agente comprueba que `BACKEND_URL` es realmente el backend (`GET /salud`) y que `AGENT_TOKEN` es aceptado. Si algo falla, lo explica en la consola y reintenta cada 10 s en lugar de quedarse mudo: URL del frontend en vez del backend, token distinto al de Render, sin internet o backend con la base caída. `BACKEND_URL` es la del **backend** (Render) terminada en `/api`, no la de Vercel.
+
+### Arranque automático (Windows)
+
+Para que el agente arranque solo al iniciar sesión, y se reinicie si se cae:
+
+```bash
+powershell -ExecutionPolicy Bypass -File scripts\instalar-inicio-automatico.ps1
+```
+
+Crea la tarea programada `AgenteImpresionExcellence` para el usuario actual (no pide administrador). Para quitarla, el mismo comando con `-Quitar`. `scripts/ejecutar-agente.ps1` es el lanzador: reinicia el agente a los 10 s si termina, guarda su salida en `logs/agente.log` (se rota a los 5 MB) y **nunca abre un segundo agente** — si ya hay uno corriendo espera a que termine, para no imprimir cada etiqueta duplicada.
+
+Es una tarea al iniciar sesión y no un servicio de Windows a propósito: un servicio corre en una sesión aislada donde las impresoras del usuario y el driver Epson suelen no verse. La consecuencia es que la PC de la impresora debe tener la sesión iniciada; conviene configurar el inicio de sesión automático de Windows y que la PC arranque sola tras un corte de luz.
+
 ## Cómo funciona
 
 1. **Consulta** el backend (`GET /etiquetas/trabajos/pendientes`) por trabajos pendientes.
